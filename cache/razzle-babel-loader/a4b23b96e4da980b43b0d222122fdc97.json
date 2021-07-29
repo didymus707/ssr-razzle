@@ -1,0 +1,1 @@
+{"ast":null,"code":"","map":{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":["export type GlobalsState = {\n  createTableModalIsOpen: boolean;\n  noSubscriptionModalIsOpen: boolean;\n  noSubscriptionModalHeading: string;\n  noSubscriptionModalSubHeading: string;\n};\n"]},"metadata":{},"sourceType":"script"}

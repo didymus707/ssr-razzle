@@ -1,0 +1,1 @@
+{"ast":null,"code":"export * from \"./terms-conditions\";","map":{"version":3,"sources":["/Users/okechukwuiheagwara/Documents/Adewale/simpu/razzle/with-typescript/src/app/unauthenticated-app/terms-conditions/index.ts"],"names":[],"mappings":"AAAA,cAAc,oBAAd","sourcesContent":["export * from \"./terms-conditions\";\n"]},"metadata":{},"sourceType":"module"}

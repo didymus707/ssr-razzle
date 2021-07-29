@@ -1,0 +1,1 @@
+{"ast":null,"code":"export * from './bank-accounts';","map":{"version":3,"sources":["/Users/okechukwuiheagwara/Documents/Adewale/simpu/razzle/with-typescript/src/app/authenticated-app/settings/component/payment/bank-accounts/index.ts"],"names":[],"mappings":"AAAA,cAAc,iBAAd","sourcesContent":["export * from './bank-accounts';\n"]},"metadata":{},"sourceType":"module"}

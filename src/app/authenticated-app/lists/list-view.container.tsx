@@ -1,0 +1,91 @@
+// @ts-nocheck
+import React from 'react';
+import { RootState } from '../../../root';
+import { connect } from 'react-redux';
+import { ListViewComponent } from './list-view.component';
+import {
+  selectList,
+  fetchRows,
+  updateColumnArrangement,
+  updateRowCell,
+  createColumn,
+  createRow,
+  selectRows,
+  clearRows,
+  deleteRows,
+  updateListName,
+  deleteColumn,
+  hideColumn,
+  showColumn,
+  updateColumnLabel,
+  updateColumnType,
+  addFilter,
+  updateFilter,
+  deleteFilter,
+  addSort,
+  deleteSort,
+  updateSort,
+  deleteList,
+  addSelectOption,
+  updateSelectOption,
+  getRowByIndex,
+  updateColumnCustomization,
+  updateColumn,
+  createSmartList,
+  updateSmartList,
+  deleteSmartList,
+  selectSmartList,
+  selectSmartListID,
+  updateSmartListFilters,
+  clearFilters,
+  updateSearchQuery,
+  enrichColumnData,
+} from './lists.reducer';
+
+import { openNoSubscriptionModal } from '../globals';
+
+const mapStateToProps = (state: RootState) => ({
+  ...state.lists,
+});
+
+export const listViewStateConnector = connect(mapStateToProps, {
+  selectList,
+  fetchRows,
+  updateColumnArrangement,
+  updateRowCell,
+  createColumn,
+  createRow,
+  selectRows,
+  clearRows,
+  deleteRows,
+  updateListName,
+  deleteColumn,
+  hideColumn,
+  showColumn,
+  updateColumnLabel,
+  updateColumnType,
+  addFilter,
+  updateFilter,
+  deleteFilter,
+  addSort,
+  updateSort,
+  deleteSort,
+  deleteList,
+  addSelectOption,
+  updateSelectOption,
+  getRowByIndex,
+  updateColumnCustomization,
+  updateColumn,
+  createSmartList,
+  selectSmartList,
+  updateSmartList,
+  deleteSmartList,
+  selectSmartListID,
+  updateSmartListFilters,
+  clearFilters,
+  updateSearchQuery,
+  openNoSubscriptionModal,
+  enrichColumnData,
+});
+
+

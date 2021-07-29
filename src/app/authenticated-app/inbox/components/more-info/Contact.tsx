@@ -27,7 +27,6 @@ import {
   selectAddressBookDetailByID,
   selectContactTable,
   selectCustomerByID,
-  selectName,
   selectThreadDetailByID,
   updateContact,
 } from '../../slices';
@@ -387,14 +386,7 @@ export function Contact({ ...props }: GridProps) {
   const threadReceiverUserID = useSelector((state: RootState) =>
     selectThreadReceiverPlatformID(state, params.id === 'new' ? '' : params.id),
   );
-  const sender_name = useSelector((state: RootState) =>
-    selectName(state, 
-      { 
-        id: sender_id,
-        // @ts-ignore
-        credentialUserID: threadReceiverUserID 
-      }),
-  );
+  const sender_name = '';
   senderDetail = { ...senderDetail, platform_name: sender_name } as CustomerSchema;
 
   let columns: TablePropertiesOptions['columns'] = [];

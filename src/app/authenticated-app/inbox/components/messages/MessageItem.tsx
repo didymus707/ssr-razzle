@@ -16,6 +16,7 @@ import { TeamMember } from '../../../settings/settings.types';
 import { selectUserDetailByID } from '../../slices/inboxUser';
 import { selectThreadReceiverPlatformID } from '../../../channels';
 import { MessageItemView } from './MessageItemView';
+import { isServer } from 'utils';
 
 export const MessageItem = ({
   messageRef,
@@ -72,7 +73,9 @@ export const MessageItem = ({
       messageRef.current
     ) {
       const rect = messageRef.current.getBoundingClientRect();
-      const documentHeight = window.innerHeight || document.documentElement.clientHeight;
+      const documentHeight = isServer
+        ? ''
+        : window.innerHeight || document.documentElement.clientHeight;
       const documentWidth = window.innerWidth || document.documentElement.clientWidth;
       const isInView =
         rect.top >= 0 &&

@@ -20,7 +20,6 @@ import {
   selectAddressBookDetailByID,
   selectContactTable,
   selectCustomerByID,
-  selectName,
   selectThreadDetailByID,
 } from '../../slices';
 import { useParams } from 'react-router-dom';
@@ -197,14 +196,7 @@ export function UserOverview({ toggleUserOverview, onUserOverViewToggled }: User
   const threadReceiverUserID = useSelector((state: RootState) =>
     selectThreadReceiverPlatformID(state, params.id === 'new' ? '' : params.id),
   );
-  const sender_name = useSelector((state: RootState) =>
-    selectName(state, 
-      { 
-        id: thread.sender_id,
-        // @ts-ignore
-        credentialUserID: threadReceiverUserID 
-      }),
-  );
+  const sender_name = '';
 
   if (toggleUserOverview === 'none') {
     return <Box />;

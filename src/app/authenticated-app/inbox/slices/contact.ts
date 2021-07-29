@@ -1,13 +1,16 @@
-import {
-    createEntityAdapter, createSelector, createSlice  } from '@reduxjs/toolkit'
-import { RootState } from '../../../../root'
+import { createEntityAdapter, createSelector, createSlice } from '@reduxjs/toolkit';
+import { RootState } from '../../../../root';
 import { selectOrganisationID } from '../../../unauthenticated-app/authentication';
+import { AddressBookSchema, ContactColumnSchema, ContactSchema } from '../inbox.types';
 import {
-  AddressBookSchema, ContactColumnSchema, ContactSchema,
-} from '../inbox.types';
-import {
-  addContact, addInboxContact, onContactListFetch, onWebSocketAssignedThread,
-  onWebSocketNewThread, onWebSocketResolvedThread, searchInbox, sendMessage,
+  addContact,
+  addInboxContact,
+  onContactListFetch,
+  onWebSocketAssignedThread,
+  onWebSocketNewThread,
+  onWebSocketResolvedThread,
+  searchInbox,
+  sendMessage,
   updateContact,
 } from './global';
 import { fetchThreadsByState } from './global';
@@ -22,7 +25,7 @@ const columnWebsocketCallback = (state: any, action: any) => {
 };
 
 export const columnsSlice = createSlice({
-  name: "columns",
+  name: 'columns',
   initialState: columnsAdapter.getInitialState(),
   reducers: {},
   extraReducers(builder) {
@@ -47,7 +50,7 @@ export const {
   selectEntities: selectColumnEntities,
   selectAll: selectAllColumns,
   selectTotal: selectTotalColumns,
-} = columnsAdapter.getSelectors<RootState>((state) => state.inbox.entities.columns);
+} = columnsAdapter.getSelectors<RootState>(state => state.inbox.entities.columns);
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const contactsAdapter = createEntityAdapter<ContactSchema>();
@@ -58,7 +61,7 @@ const websocketCallback = (state: any, action: any) => {
 };
 
 export const contactsSlice = createSlice({
-  name: "contacts",
+  name: 'contacts',
   initialState: contactsAdapter.getInitialState(),
   reducers: {},
   extraReducers(builder) {
@@ -82,7 +85,7 @@ export const {
   selectEntities: selectContactEntities,
   selectAll: selectAllContacts,
   selectTotal: selectTotalContacts,
-} = contactsAdapter.getSelectors<RootState>((state) => state.inbox.entities.contacts);
+} = contactsAdapter.getSelectors<RootState>(state => state.inbox.entities.contacts);
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 const addressBooksAdapter = createEntityAdapter<AddressBookSchema>({
@@ -95,7 +98,7 @@ const addressUpsertCallback = (state: any, action: any) => {
 };
 
 export const addressBooksSlice = createSlice({
-  name: "addressBooks",
+  name: 'addressBooks',
   initialState: addressBooksAdapter.getInitialState(),
   reducers: {},
   extraReducers(builder) {
@@ -118,15 +121,20 @@ export const {
   selectEntities: selectAddressBookEntities,
   selectAll: selectAllAddressBooks,
   selectTotal: selectTotalAddressBooks,
-} = addressBooksAdapter.getSelectors<RootState>((state) => state.inbox.entities.addressBooks);
+} = addressBooksAdapter.getSelectors<RootState>(state => state.inbox.entities.addressBooks);
 
 export const selectAddressBookByOrgIDAndCustomerID = createSelector(
-  (_: RootState, payload: Pick<AddressBookSchema, 'customer_id' | 'organisation_id'>) => payload.organisation_id,
-  (_: RootState, payload: Pick<AddressBookSchema, 'customer_id' | 'organisation_id'>) => payload.customer_id,
+  (_: RootState, payload: Pick<AddressBookSchema, 'customer_id' | 'organisation_id'>) =>
+    payload.organisation_id,
+  (_: RootState, payload: Pick<AddressBookSchema, 'customer_id' | 'organisation_id'>) =>
+    payload.customer_id,
   selectAllAddressBooks,
-  (orgID, custID, addressBooks) => (orgID && custID) ? addressBooks.find(
-    ({ organisation_id, customer_id }) => orgID === organisation_id && customer_id === custID
-  ) : undefined
+  (orgID, custID, addressBooks) =>
+    orgID && custID
+      ? addressBooks.find(
+          ({ organisation_id, customer_id }) => orgID === organisation_id && customer_id === custID,
+        )
+      : undefined,
 );
 
 export const selectAddressBookDetailByID = createSelector(
@@ -137,44 +145,40 @@ export const selectAddressBookDetailByID = createSelector(
     if (!addressBook) {
       return null;
     }
-    
+
     const contactinfo = contacts[addressBook?.contact_id || ''];
     const columns = cs[addressBook?.contact_id || ''];
 
-    return { ...addressBook, contactinfo: { ...contactinfo, columns } }
-  }
+    return { ...addressBook, contactinfo: { ...contactinfo, columns } };
+  },
 );
 
-export const selectContactNameFromAdderssBook = createSelector(
-  selectOrganisationID,
-  selectColumnEntities,
-  selectAllAddressBooks,
-  (_: RootState, sender_id: string) => sender_id,
-  (orgID, cs, addressBooks, sender_id) => {
-    const addressBook = addressBooks.find(
-      ({ organisation_id, customer_id }) => (
-        organisation_id === orgID && customer_id === sender_id
-      )
-    );
-    const columns = cs[addressBook?.contact_id || ''];
+// export const selectContactNameFromAdderssBook = createSelector(
+//   selectOrganisationID,
+//   selectColumnEntities,
+//   selectAllAddressBooks,
+//   (_: RootState, sender_id: string) => sender_id,
+//   (orgID, cs, addressBooks, sender_id) => {
+//     const addressBook = addressBooks.find(
+//       ({ organisation_id, customer_id }) => organisation_id === orgID && customer_id === sender_id,
+//     );
+//     const columns = cs[addressBook?.contact_id || ''];
 
-    return (columns && columns[1]);
-  }
-)
+//     return columns && columns[1];
+//   },
+// );
 
-export const selectContactName = createSelector(
-  selectOrganisationID,
-  selectColumnEntities,
-  selectAllAddressBooks,
-  (_: RootState, payload: { id: string }) => payload.id,
-  (orgID, cs, addressBooks, sender_id) => {
-    const addressBook = addressBooks.find(
-      ({ organisation_id, customer_id }) => (
-        organisation_id === orgID && customer_id === sender_id
-      )
-    );
-    const columns = cs[addressBook?.contact_id || ''];
+// export const selectContactName = createSelector(
+//   selectOrganisationID,
+//   selectColumnEntities,
+//   selectAllAddressBooks,
+//   (_: RootState, payload: { id: string }) => payload.id,
+//   (orgID, cs, addressBooks, sender_id) => {
+//     const addressBook = addressBooks.find(
+//       ({ organisation_id, customer_id }) => organisation_id === orgID && customer_id === sender_id,
+//     );
+//     const columns = cs[addressBook?.contact_id || ''];
 
-    return (columns && columns[1]);
-  }
-)
+//     return columns && columns[1];
+//   },
+// );

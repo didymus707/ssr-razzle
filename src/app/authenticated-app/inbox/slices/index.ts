@@ -9,4 +9,3 @@ export * from './note';
 export * from './ui';
 export * from './global';
 export * from './platformContact';
-export * from './selectors';

@@ -2,8 +2,10 @@ import express from 'express';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
 import { configureAppStore, preloadedState } from 'root';
+import { dehydrate, Hydrate } from 'react-query/hydration';
 
 import App from './App';
 
@@ -15,30 +17,39 @@ const syncLoadAssets = () => {
 syncLoadAssets();
 
 const cssLinksFromAssets = (assets, entrypoint) => {
-  return assets[entrypoint] ? assets[entrypoint].css ?
-  assets[entrypoint].css.map(asset=>
-    `<link rel="stylesheet" href="${asset}">`
-  ).join('') : '' : '';
+  return assets[entrypoint]
+    ? assets[entrypoint].css
+      ? assets[entrypoint].css.map(asset => `<link rel="stylesheet" href="${asset}">`).join('')
+      : ''
+    : '';
 };
 
 const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
-  return assets[entrypoint] ? assets[entrypoint].js ?
-  assets[entrypoint].js.map(asset=>
-    `<script src="${asset}"${extra}></script>`
-  ).join('') : '' : '';
+  return assets[entrypoint]
+    ? assets[entrypoint].js
+      ? assets[entrypoint].js.map(asset => `<script src="${asset}"${extra}></script>`).join('')
+      : ''
+    : '';
 };
 
 export const renderApp = (req: express.Request, res: express.Response) => {
   const context: any = {};
+  const queryClient = new QueryClient();
+  const dehydratedState = dehydrate(queryClient);
 
   const store = configureAppStore(preloadedState);
 
   const markup = renderToString(
     <StaticRouter context={context} location={req.url}>
       <Provider store={store}>
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={dehydratedState}>
+            <p>Hello world</p>
+            {/* <App /> */}
+          </Hydrate>
+        </QueryClientProvider>
       </Provider>
-    </StaticRouter>
+    </StaticRouter>,
   );
 
   if (context.url) {
@@ -57,6 +68,9 @@ export const renderApp = (req: express.Request, res: express.Response) => {
     </head>
     <body>
         <div id="root">${markup}</div>
+        <script>
+           window.__REACT_QUERY_STATE__ = ${JSON.stringify(dehydratedState)};
+         </script>
         ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
     </body>
   </html>`;

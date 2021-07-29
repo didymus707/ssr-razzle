@@ -8,7 +8,7 @@ import { TeamMember } from '../../../settings/settings.types';
 import { INBOX_INIT } from '../../inbox.data';
 import { MessageItemViewProps } from '../../inbox.types';
 import { formatMessageDateTime, isOnlyEmoji } from '../../inbox.utils';
-import { messageSend, retrySendingMessage, selectName } from '../../slices';
+import { messageSend, retrySendingMessage } from '../../slices';
 import { selectUserDetailByID } from '../../slices/inboxUser';
 
 export const MessageItemView = ({
@@ -39,14 +39,7 @@ export const MessageItemView = ({
     ...INBOX_INIT.inboxUser,
     userInfo: INBOX_INIT.customer,
   };
-  const authorName = useSelector((state: RootState) =>
-    selectName(state, 
-      { 
-        id: author_id,
-        // @ts-ignore
-        credentialUserID: threadReceiverUserID 
-      }),
-  );
+  const authorName = '';
 
   let { userInfo } = author;
   let avatarName = '';

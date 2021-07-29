@@ -32,6 +32,7 @@ import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from 'react-q
 import { useSelector } from 'react-redux';
 import { ResizableBox } from 'react-resizable';
 import { OptionTypeBase } from 'react-select';
+import { isServer } from 'utils';
 import { channelOptions } from '../..';
 import {
   addProfileToContact,
@@ -345,8 +346,8 @@ export const MoreInfoSidebar = (props: MoreInfoSidebarProps) => {
         resizeHandles={['w']}
         onResize={handleResize}
         minConstraints={[80, 100]}
-        height={window.innerHeight}
-        maxConstraints={[302, window.innerHeight]}
+        height={isServer ? 900 : window.innerHeight}
+        maxConstraints={[302, isServer ? 900 : window.innerHeight]}
       >
         {section === 0 ? (
           <Flex my="4.75rem" flexDirection="column" justifyContent="center" alignItems="center">
@@ -741,7 +742,7 @@ const MoreInfoSidebarContainer = styled.div<{ background: string }>`
     position: absolute;
     display: inline-block;
     background-color: transparent;
-    height: ${window.innerHeight}px;
+    height: ${isServer ? '' : window.innerHeight}px;
   }
 
   .handle:hover {

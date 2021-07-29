@@ -207,3 +207,9 @@ export function uploadFile(options: {
     xhr.send(formData);
   });
 }
+
+export const isServer = !(
+  typeof window !== 'undefined' &&
+  window.document &&
+  window.document.createElement
+);

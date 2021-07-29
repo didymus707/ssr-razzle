@@ -1,7 +1,14 @@
 import { Icon, Popover, PopoverContent, PopoverTrigger } from '@chakra-ui/core';
 import { Button, OutsideClickHandler } from 'app/components';
-import Picker from 'emoji-picker-react';
+// import Picker from 'emoji-picker-react';
 import React, { useState } from 'react';
+
+let Picker;
+if (typeof window !== 'undefined') {
+  import('emoji-picker-react').then(_module => {
+    Picker = _module.default;
+  });
+}
 
 export function Emoji({
   onEmojiClick,

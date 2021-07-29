@@ -86,22 +86,19 @@ export const authLoading = (loading: boolean) => async (dispatch: AppDispatch) =
 
 export const selectProfile = createSelector(
   (state: RootState) => state.auth,
-  (auth) => auth.profile,
+  auth => auth.profile,
 );
 
 export const selectOrganisationID = createSelector(
-  selectProfile, (profile) => profile?.organisation_id
+  selectProfile,
+  profile => profile?.organisation_id ?? '',
 );
 
-export const selectUserID = createSelector(
-  selectProfile, (profile) => profile?.user_id
-);
+export const selectUserID = createSelector(selectProfile, profile => profile?.user_id);
 
 export const selectUser = createSelector(
   (state: RootState) => state.auth,
-  (auth) => auth.user,
+  auth => auth.user,
 );
 
-export const selectUserEmail = createSelector(
-  selectUser, user => user?.email || ''
-);
+export const selectUserEmail = createSelector(selectUser, user => user?.email || '');

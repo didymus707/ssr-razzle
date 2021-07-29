@@ -1,0 +1,1 @@
+{"ast":null,"code":"","map":{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":["export interface SearchProps {\n  value?: string\n  onChange?: (val: string) => void\n}\n"]},"metadata":{},"sourceType":"script"}

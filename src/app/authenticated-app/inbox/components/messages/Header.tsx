@@ -46,7 +46,6 @@ import {
   selectThreadDetailByID,
   sendThreadNote,
   selectContactTableID,
-  selectName,
 } from '../../slices';
 
 function Left({
@@ -59,14 +58,7 @@ function Left({
     useSelector((state: RootState) => selectCustomerById(state, receiver?.user_id || '')) ||
     INBOX_INIT.customer;
 
-  const sender_name = useSelector((state: RootState) =>
-    selectName(state, 
-      { 
-        id: sender_id,
-        // @ts-ignore
-        credentialUserID: receiver?.user_id 
-      }),
-  );
+  const sender_name = '';
 
   return (
     <Box {...props}>

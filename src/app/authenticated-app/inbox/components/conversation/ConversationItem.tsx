@@ -9,7 +9,6 @@ import {
   makeSelectMessageNotificationStatus,
   makeSelectThreadById,
   selectLatestMessage,
-  selectName,
   selectThreadAssigningState,
 } from '../../slices';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,13 +33,7 @@ export function ConversationItem({ highlight, itemID }: ConversationItemProps) {
   const threadReceiverUserID = useSelector((state: RootState) =>
     selectThreadReceiverPlatformID(state, itemID),
   );
-  const sender_name = useSelector((state: RootState) =>
-    selectName(state, {
-      id: thread.sender_id,
-      // @ts-ignore
-      credentialUserID: threadReceiverUserID
-    }),
-  );
+  const sender_name = '';
 
   const sender =
     useSelector((state: RootState) => selectCustomerByID(state, thread.sender_id)) ||
